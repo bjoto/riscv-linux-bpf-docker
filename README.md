@@ -1,4 +1,4 @@
-# RISC-V BPF Docker kselftest builder/runner
+# RISC-V (BPF) Docker kselftest builder/runner
 
 0. Build container (once)
 ```
