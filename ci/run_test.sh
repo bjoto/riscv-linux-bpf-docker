@@ -60,7 +60,7 @@ check_boot () {
     fi
 }
 
-tmp=$(mktemp -d -p "$PWD")
+tmp=$(mktemp -d -p /build)
 
 trap 'rm -rf "$tmp"' EXIT
 

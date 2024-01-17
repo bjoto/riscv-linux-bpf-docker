@@ -19,7 +19,7 @@ selftest=$4
 test_string=$5
 
 
-tmp=$(mktemp -d -p "$PWD")
+tmp=$(mktemp -d -p /build)
 
 cleanup() {
     rm -rf "$tmp"
@@ -81,6 +81,7 @@ if [[ -n ${test_string} ]]; then
 #!/bin/bash
 
 set -x
+echo "<5>Hello" > /dev/kmsg
 cd /kselftest
 
 EOF

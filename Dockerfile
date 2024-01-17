@@ -116,12 +116,13 @@ RUN apt-get install --yes --no-install-recommends \
 
 COPY mkfirmware_rv64_opensbi.sh /usr/local/bin/mkfirmware_rv64_opensbi.sh
 COPY mkfirmware_rv64_uboot.sh /usr/local/bin/mkfirmware_rv64_uboot.sh
-COPY mkrootfs_rv64_ubuntu.sh /usr/local/bin/mkrootfs_rv64_ubuntu.sh
-COPY systemd-debian-customize-hook.sh /usr/local/bin/systemd-debian-customize-hook.sh
 
 RUN mkdir -p /firmware
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_opensbi.sh
 RUN cd /firmware && /usr/local/bin/mkfirmware_rv64_uboot.sh
+
+COPY mkrootfs_rv64_ubuntu.sh /usr/local/bin/mkrootfs_rv64_ubuntu.sh
+COPY systemd-debian-customize-hook.sh /usr/local/bin/systemd-debian-customize-hook.sh
 
 RUN mkdir -p /rootfs
 RUN cd /rootfs && /usr/local/bin/mkrootfs_rv64_ubuntu.sh

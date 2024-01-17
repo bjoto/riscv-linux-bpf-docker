@@ -13,6 +13,10 @@ ExecStart=
 ExecStart=-/sbin/agetty -o '-p -f -- \u' --keep-baud --autologin root 115200,57600,38400,9600 - $TERM
 EOF
 
+cat > "$1/etc/sysctl.d/10-console-messages.conf" << "EOF"
+kernel.printk = 7 4 1 7
+EOF
+
 cat > "$1/etc/systemd/network/lan0.network" << "EOF"
 [Match]
 Name=eth0
