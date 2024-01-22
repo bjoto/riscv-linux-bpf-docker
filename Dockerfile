@@ -51,7 +51,9 @@ RUN apt-get update && apt-get install --yes --no-install-recommends \
     less \
     libdw-dev \
     libelf-dev \
+    libglib2.0-dev \
     libguestfs-tools \
+    libslirp-dev \
     libssl-dev \
     liburing-dev \
     lsb-release \
@@ -134,6 +136,9 @@ RUN echo 'export KBUILD_BUILD_USER=tuxmake' >> /etc/profile
 RUN echo 'export KBUILD_BUILD_HOST=tuxmake' >> /etc/profile
 
 RUN apt-get install --yes --no-install-recommends linux-image-generic
+
+COPY mkqemu.sh /usr/local/bin/mkqemu.sh
+RUN cd /rootfs && /usr/local/bin/mkqemu.sh
 
 COPY ci /usr/local/bin/ci
 COPY run.sh /usr/local/bin/run.sh
