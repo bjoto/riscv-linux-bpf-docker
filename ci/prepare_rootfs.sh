@@ -132,6 +132,9 @@ cd bpf
 ./test_verifier
 EOF
             ;;
+        "debug")
+	    guestfish --remote -- rm /root/.profile
+            ;;
         *)
             cat >>$tmp/dotest <<EOF
 echo "Not a valid test_string"

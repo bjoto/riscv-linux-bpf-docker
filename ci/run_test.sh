@@ -25,7 +25,11 @@ qemu_rv64 () {
     local extra=$4
     local log=$5
 
-    timeout --foreground 24h qemu-system-riscv64 \
+    to="timeout --foreground 24h"
+    if [[ ${test_string} == "debug" ]]; then
+	to=""
+    fi
+    ${to} qemu-system-riscv64 \
         -no-reboot \
         -bios $bios \
         -nodefaults \
@@ -91,7 +95,9 @@ if [[ $kernel =~ "rv64" ]]; then
             n=${n}-uboot-uefi
             qemu_rv64 "${firmware_dir}/rv64/fw_dynamic.bin" "$cpu" "${firmware_dir}/rv64/rv64-u-boot.bin" "" \
                       "${log_dir}/${n}.log"
-
+	    if [[ ${test_string} == "debug" ]]; then
+		exit 0
+	    fi
             check_boot "$n"
 
             # UEFI boot with edk2
