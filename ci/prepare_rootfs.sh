@@ -17,7 +17,7 @@ kernelpath=$2
 rootfs=$3
 selftest=$4
 test_string=$5
-
+opaque=${6:-}
 
 tmp=$(mktemp -d -p /build)
 
@@ -90,46 +90,55 @@ EOF
             cat >>$tmp/dotest <<EOF
 for i in $(./run_kselftest.sh -l|awk -F: '{print $1}' |uniq |egrep -v 'bpf|net|lkdtm|breakpoints'); do
     echo "TEST $i"
-    ./run_kselftest.sh -s -o 3600 -c $i
+    ./run_kselftest.sh -s -o 3600 -c $i ${opaque}
 done
 EOF
             ;;
         "self-net")
             cat >>$tmp/dotest <<EOF
 echo "TEST net"
-./run_kselftest.sh -s -o 3600 -c net
+./run_kselftest.sh -s -o 3600 -c net ${opaque}
 EOF
             ;;
         "self-bpf-all")
             cat >>$tmp/dotest <<EOF
 echo "TEST bpf"
-./run_kselftest.sh -s -o 3600 -c bpf
+./run_kselftest.sh -s -o 7200 -c bpf ${opaque}
 EOF
             ;;
         "self-bpf-test_progs")
             cat >>$tmp/dotest <<EOF
 cd bpf
-./test_progs
+./test_progs ${opaque}
 EOF
             ;;
         "self-bpf-test_progs_no_alu32")
             cat >>$tmp/dotest <<EOF
+cd bpf
+./test_progs-no_alu32 ${opaque}
 EOF
             ;;
         "self-bpf-test_progs_cpuv4")
             cat >>$tmp/dotest <<EOF
+cd bpf
+./test_progs-cpuv4 ${opaque}
 EOF
             ;;
         "self-bpf-test_maps")
             cat >>$tmp/dotest <<EOF
 cd bpf
-./test_maps
+./test_maps ${opaque}
 EOF
             ;;
         "self-bpf-test_verifier")
             cat >>$tmp/dotest <<EOF
 cd bpf
-./test_verifier
+./test_verifier ${opaque}
+EOF
+            ;;
+        "command")
+            cat >>$tmp/dotest <<EOF
+${opaque}
 EOF
             ;;
         "debug")

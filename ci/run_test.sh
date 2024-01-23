@@ -17,6 +17,7 @@ kernel=$1          # e.g. rv64_gcc_defconfig_plain
 rootfs=$2          #      rootfs_rv64_alpine_2023.03.13.tar.xz
 selftest=$3
 test_string=$4
+opaque=${5:-}
 
 qemu_rv64 () {
     local bios=$1
@@ -74,7 +75,7 @@ vmlinuz=$(find $kernel -name '*vmlinuz*')
 config=$(find $kernel -name 'config-*')
 
 image=$tmp/rootfs.img
-$d/prepare_rootfs.sh $image $kernel $rootfs $selftest ${test_string}
+$d/prepare_rootfs.sh $image $kernel $rootfs $selftest ${test_string} "${opaque}"
 
 if [[ $kernel =~ "rv64" ]]; then
     list_cpus=( "rv64,v=true,vlen=256,elen=64,h=true,zbkb=on,zbkc=on,zbkx=on,zkr=on,zkt=on,svinval=on,svnapot=on,svpbmt=on" )

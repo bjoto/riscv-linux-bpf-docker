@@ -1,6 +1,7 @@
 #!/bin/bash
 
 test_string=${1:-"self-bpf-all"}
+opaque=${2:-}
 
 case ${test_string} in
     "self-all")
@@ -31,7 +32,7 @@ cd /build/my-linux
 /usr/local/bin/ci/prepare_tests.sh
 /usr/local/bin/ci/kernel_builder.sh rv64 kselftest plain gcc
 /usr/local/bin/ci/kselftest_builder.sh rv64 kselftest plain gcc
-/usr/local/bin/ci/test_runner.sh rv64 kselftest plain gcc ubuntu ${test_string}
+/usr/local/bin/ci/test_runner.sh rv64 kselftest plain gcc ubuntu ${test_string} "${opaque}"
 for i in /build/tests/run_test_*; do
     echo "::group::Dumping $i"
     cat $i
